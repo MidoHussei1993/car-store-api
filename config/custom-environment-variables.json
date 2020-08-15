@@ -1,0 +1,18 @@
+{
+  "host":"PROD_SERVER",
+  "Customer": {
+    "jwtPrivateKey": "vidly_jwtPrivateKey",
+    "dbConfig": {
+      "host": "PROD_SERVER"
+    },
+    "credit": {
+      "initialDays": "CR_ID"
+    },
+    "settings": {
+      "adminAccounts": {
+        "__name": "ADMIN_ACCS",
+        "__format": "json"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "host":"PROD_SERVER",
+  "Customer": {
+    "jwtPrivateKey": "jfduf55",
+    "dbConfig": {
+      "host": "mongodb://localhost/carStore"
+    },
+    "credit": {
+      "initialDays": "CR_ID"
+    },
+    "settings": {
+      "adminAccounts": {
+        "__name": "ADMIN_ACCS",
+        "__format": "json"
+      }
+    }
+  }
+}
