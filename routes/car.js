@@ -4,7 +4,7 @@ const _ = require('lodash')
 const fs = require('fs')
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 router.post('/',auth, async (req, res) => {
   const images = req.files;
