@@ -3,6 +3,15 @@ async function pagination(req,res, model) {
   let limit = parseInt(req.query.limit) || 3;
   let sortDirection = parseInt(req.query.sortDirection) || -1;
   let query = {};
+  if((req.query.model == 'car') && req.query.searchValue){
+    if(req.query.searchValue.length > 1){
+      query = {model:{$match:req.query.searchValue}}
+    }
+  }else if((req.query.model == 'mark') && req.query.searchValue){
+    if(req.query.searchValue.length > 1){
+      query = {name:{ "$regex":req.query.searchValue, "$options": "i" }}
+    }
+  }
   await model
     .find(query)
     .sort({ update_at: sortDirection })
@@ -19,9 +28,9 @@ async function pagination(req,res, model) {
         const totalPages = Math.ceil(count / doc.length);
         return res.json({
           pagination: {
-            totalItems: count,
-            totalPages: totalPages,
-            currentPage: page,
+            totalItems: count?count:0,
+            totalPages: totalPages?totalPages:0,
+            currentPage: count?page:0,
             pageSize: doc.length,
           },
           result: doc,

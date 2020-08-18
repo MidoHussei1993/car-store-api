@@ -46,12 +46,18 @@ router.get("/getFirst", async (req, res) => {
   if(!result)return res.status(400).send('can`t find mark with this id')
   res.status(200).send(result);
 });
-
-
 router.get("/getAll", async (req, res) => {
   const marks = await Mark.find();
   res.status(200).send(marks);
 });
+router.delete('/:id',async (req,res)=>{
+  const isValid = mongoose.Types.ObjectId.isValid(req.params.id);
+  if (!isValid) return res.status(400).send({ message: `invalid user id..` });
+
+  const mark = await Mark.findByIdAndDelete(req.params.id);
+  if(!mark) return res.status(400).send('not fond car with this id')
+  res.send(`the ${mark.name} delete it`);
+})
 
 function validate(req) {
   const schema = Joi.object({
