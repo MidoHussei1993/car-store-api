@@ -6,8 +6,8 @@ const mongoose = require('mongoose');
 const express = require("express");
 
 const router = express.Router();
-
-router.post("/", auth, async (req, res) => {
+//add Mark
+router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -18,10 +18,19 @@ router.post("/", auth, async (req, res) => {
   const result = await mark.save();
   res.status(200).send(result);
 });
-
+//get mark list with pagination
 router.get("/", async (req, res) => {
   pagination(req,res,Mark)
 });
+//get mark by Mark Id
+router.get("/:id", async (req, res) => {
+  const isValid = mongoose.Types.ObjectId.isValid(req.params.id);
+  if (!isValid) return res.status(400).send({ message: `invalid user id..` });
+  const result = await Mark.findById(req.params.id);
+  if(!result)return res.status(400).send('can`t find mark with this id');
+  res.status(200).send(result);
+});
+//Navigate between documents
 router.get("/getNext/:id", async (req, res) => {
   const isValid = mongoose.Types.ObjectId.isValid(req.params.id);
   if (!isValid) return res.status(400).send({ message: `invalid user id..` });
@@ -55,8 +64,8 @@ router.delete('/:id',async (req,res)=>{
   if (!isValid) return res.status(400).send({ message: `invalid user id..` });
 
   const mark = await Mark.findByIdAndDelete(req.params.id);
-  if(!mark) return res.status(400).send('not fond car with this id')
-  res.send(`the ${mark.name} delete it`);
+  if(!mark)  res.status(400).send('not fond mark with this id')
+  res.status(200).json(`the ${mark.name} delete it`);
 })
 
 function validate(req) {

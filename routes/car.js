@@ -5,8 +5,8 @@ const fs = require('fs')
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const { pagination } = require("../services/mongoose-helpers");
-router.post('/',auth, async (req, res) => {
+const { carPagination } = require("../services/mongoose-helpers");
+router.post('/', async (req, res) => {
   const images = req.files;
   if(!images.length >= 1) return res.status(400).send('you should send one image at least')
   
@@ -20,7 +20,7 @@ router.post('/',auth, async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  pagination(req,res,Car)
+  carPagination(req,res,Car)
 });
 router.get("/getNext/:id", async (req, res) => {
   const isValid = mongoose.Types.ObjectId.isValid(req.params.id);
